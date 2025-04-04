@@ -18,29 +18,22 @@ body {
   background-color: var(--rlp-light);
   color: var(--rlp-dark);
   -webkit-font-smoothing: antialiased;
-}
-
-main {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem 1rem;
   min-height: 100vh;
-  background-color: var(--rlp-light);
 }
 
-/* === Layout === */
-section {
+main {
   width: 100%;
   max-width: 700px;
-  background: white;
+  background-color: white;
+  padding: 2rem;
   border-radius: var(--border-radius);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
-  padding: 2rem;
-  border: 1px solid #e5e7eb;
+  margin: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
 /* === Headings === */
@@ -147,6 +140,43 @@ input[type="checkbox"] {
   font-weight: 800;
   color: var(--rlp-dark);
   line-height: 1.2;
+}
+
+/* === Button Styles === */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition);
+}
+
+button.primary {
+  background-color: var(--rlp-red);
+  color: white;
+  border: none;
+}
+
+button.primary:hover {
+  background-color: #a71818;
+}
+
+button.secondary {
+  background-color: #e5e5e5;
+  color: var(--rlp-dark);
+  border: none;
+}
+
+button.secondary:hover {
+  background-color: #cccccc;
 }
 
 /* === Utilities === */
