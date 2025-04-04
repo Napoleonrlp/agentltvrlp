@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function AgentROICalculator() {
+export default function AgentLTVCalculator() {
   const [gci, setGCI] = useState(120000);
   const [royaltyRate, setRoyaltyRate] = useState(1);
   const [royaltyCap, setRoyaltyCap] = useState(1525);
@@ -33,7 +33,7 @@ export default function AgentROICalculator() {
 
   return (
     <div className="p-4 max-w-xl mx-auto space-y-4 text-[var(--rlp-dark)] bg-[var(--rlp-light)] font-sans">
-      <h2 className="text-2xl font-bold text-[var(--rlp-red)]">Agent ROI Calculator</h2>
+      <h2 className="text-2xl font-bold text-[var(--rlp-red)]">Agent LTV Calculator</h2>
 
       <div className="space-y-2">
         <label className="block">Agent GCI ($):
