@@ -1,0 +1,61 @@
+:root {
+  --rlp-red: #b61c1c;
+  --rlp-dark: #1a1a1a;
+  --rlp-light: #f8f9fa;
+  --input-border: #d1d5db;
+  --input-bg: #ffffff;
+  --input-radius: 0.5rem;
+  --input-padding: 0.5rem 0.75rem;
+  --font-stack: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-stack);
+  background-color: var(--rlp-light);
+  color: var(--rlp-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-rendering: optimizeLegibility;
+}
+
+.input {
+  width: 100%;
+  padding: var(--input-padding);
+  font-size: 1rem;
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: var(--input-radius);
+  transition: border-color 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--rlp-red);
+  box-shadow: 0 0 0 1px var(--rlp-red);
+}
+
+h2, h3, h4 {
+  color: var(--rlp-red);
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+@media (max-width: 640px) {
+  body {
+    padding: 1rem;
+    align-items: flex-start;
+  }
+
+  .input {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+}
