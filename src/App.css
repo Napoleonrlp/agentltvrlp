@@ -15,54 +15,59 @@ body {
   font-family: var(--font-stack);
   background-color: var(--rlp-light);
   color: var(--rlp-dark);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
-  text-rendering: optimizeLegibility;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  padding: 1rem;
 }
 
-/* Default input styling */
+/* Input styling */
 .input {
   width: 100%;
   padding: var(--input-padding);
   font-size: 1rem;
-  color: var(--rlp-dark);
   background-color: var(--input-bg);
+  color: var(--rlp-dark);
   border: 1px solid var(--input-border);
   border-radius: var(--input-radius);
   outline: none;
-  transition: border 0.2s ease;
+  transition: border-color 0.2s ease;
 }
 
 .input:focus {
   border-color: var(--rlp-red);
-  box-shadow: 0 0 0 1px var(--rlp-red);
+  box-shadow: 0 0 0 2px rgba(182, 28, 28, 0.2);
 }
 
-h2, h3, h4 {
-  color: var(--rlp-red);
-}
-
-label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 0.25rem;
-}
-
-input[type='checkbox'] {
+input[type="checkbox"] {
   accent-color: var(--rlp-red);
 }
 
-/* Container layout */
+/* Typography emphasis */
+h1, h2, h3, h4, h5 {
+  color: var(--rlp-red);
+  font-weight: bold;
+}
+
+label {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+/* Mobile layout fix */
 @media (max-width: 640px) {
   body {
     padding: 1rem;
-    align-items: flex-start;
+    align-items: stretch;
   }
 
   .input {
     font-size: 1rem;
     padding: 0.5rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
   }
 }
