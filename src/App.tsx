@@ -142,6 +142,10 @@ export default function AgentLTVCalculator() {
             <p>Based on {tenure} year(s) tenure</p>
           </div>
         )}
+
+        <p className="text-center" style={{ marginTop: '2rem', fontSize: '0.875rem', color: '#777' }}>
+          Created by Napoleon Jamir for Royal LePage
+        </p>
       </section>
     </main>
   );
