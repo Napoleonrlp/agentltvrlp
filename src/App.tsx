@@ -50,28 +50,28 @@ export default function AgentLTVCalculator() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[var(--rlp-light)] px-4 py-8">
-      <div className="w-full max-w-2xl p-6 bg-white rounded-xl shadow-2xl space-y-6 text-[var(--rlp-dark)] font-sans border border-gray-200">
-        <h2 className="text-3xl font-bold text-center text-[var(--rlp-red)]">Agent LTV Calculator</h2>
+      <div className="w-full max-w-2xl p-6 bg-white rounded-2xl shadow-2xl space-y-6 text-[var(--rlp-dark)] font-sans border border-gray-200 sm:mx-auto">
+        <h2 className="text-3xl sm:text-4xl font-bold text-center text-[var(--rlp-red)] mb-4">Agent LTV Calculator</h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <label className="block">Agent GCI ($):
-            <input type="number" value={gci} onChange={e => setGCI(+e.target.value)} className="input w-full bg-white text-black" />
+            <input type="number" value={gci} onChange={e => setGCI(+e.target.value)} className="input w-full" />
           </label>
 
           <label className="block">Royalty Rate (%):
-            <input type="number" value={royaltyRate} onChange={e => setRoyaltyRate(+e.target.value)} className="input w-full bg-white text-black" />
+            <input type="number" value={royaltyRate} onChange={e => setRoyaltyRate(+e.target.value)} className="input w-full" />
           </label>
 
           <label className="block">Royalty Cap ($):
-            <input type="number" value={royaltyCap} onChange={e => setRoyaltyCap(+e.target.value)} className="input w-full bg-white text-black" />
+            <input type="number" value={royaltyCap} onChange={e => setRoyaltyCap(+e.target.value)} className="input w-full" />
           </label>
 
           <label className="block">Marketing + Franchise Fee (% of GCI):
-            <input type="number" value={marketingFranchiseFeePct} onChange={e => setMarketingFranchiseFeePct(+e.target.value)} className="input w-full bg-white text-black" />
+            <input type="number" value={marketingFranchiseFeePct} onChange={e => setMarketingFranchiseFeePct(+e.target.value)} className="input w-full" />
           </label>
 
           <label className="block">Tenure (Years):
-            <input type="number" value={tenure} onChange={e => setTenure(+e.target.value)} className="input w-full bg-white text-black" />
+            <input type="number" value={tenure} onChange={e => setTenure(+e.target.value)} className="input w-full" />
           </label>
         </div>
 
@@ -82,7 +82,7 @@ export default function AgentLTVCalculator() {
               const typedKey = key as RevenueKey;
               return (
                 <div key={key} className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-                  <label className="flex items-center gap-2">
+                  <label className="flex items-center gap-2 text-sm font-medium">
                     <input
                       type="checkbox"
                       checked={enabled}
@@ -96,7 +96,7 @@ export default function AgentLTVCalculator() {
                         })
                       }
                     />
-                    <span className="capitalize font-medium text-sm">{key.replace(/([A-Z])/g, ' $1')}</span>
+                    <span className="capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>
                   </label>
                   <input
                     type="number"
@@ -110,7 +110,7 @@ export default function AgentLTVCalculator() {
                         },
                       })
                     }
-                    className="input w-full sm:w-24 bg-white text-black"
+                    className="input w-full sm:w-24"
                     disabled={!enabled}
                   />
                 </div>
@@ -119,10 +119,10 @@ export default function AgentLTVCalculator() {
           </div>
         </div>
 
-        <div className="mt-6 p-6 border-2 border-[var(--rlp-red)] rounded-lg bg-[var(--rlp-light)] shadow-lg text-center">
-          <h4 className="text-xl font-bold text-[var(--rlp-red)] mb-2">Estimated Lifetime Value (LTV) to RLP</h4>
-          <p className="text-5xl font-extrabold text-[var(--rlp-dark)] tracking-tight leading-snug">${lifetimeValue.toLocaleString()}</p>
-          <p className="text-sm text-[var(--rlp-dark)] mt-1">Based on {tenure} year(s) tenure</p>
+        <div className="mt-8 p-6 border-4 border-[var(--rlp-red)] rounded-xl bg-white shadow-lg text-center">
+          <h4 className="text-2xl sm:text-3xl font-bold text-[var(--rlp-red)] mb-2 uppercase">Estimated LTV to RLP</h4>
+          <p className="text-5xl sm:text-6xl font-extrabold text-[var(--rlp-dark)] tracking-tight leading-tight">${lifetimeValue.toLocaleString()}</p>
+          <p className="text-sm text-[var(--rlp-dark)] mt-2">Based on {tenure} year(s) tenure</p>
         </div>
       </div>
     </div>
