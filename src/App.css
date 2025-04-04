@@ -22,18 +22,20 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Default input styling */
 .input {
   width: 100%;
   padding: var(--input-padding);
   font-size: 1rem;
+  color: var(--rlp-dark);
   background-color: var(--input-bg);
   border: 1px solid var(--input-border);
   border-radius: var(--input-radius);
-  transition: border-color 0.2s ease;
+  outline: none;
+  transition: border 0.2s ease;
 }
 
 .input:focus {
-  outline: none;
   border-color: var(--rlp-red);
   box-shadow: 0 0 0 1px var(--rlp-red);
 }
@@ -48,6 +50,11 @@ label {
   margin-bottom: 0.25rem;
 }
 
+input[type='checkbox'] {
+  accent-color: var(--rlp-red);
+}
+
+/* Container layout */
 @media (max-width: 640px) {
   body {
     padding: 1rem;
