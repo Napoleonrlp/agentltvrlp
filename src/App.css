@@ -16,23 +16,19 @@ body {
   background-color: var(--rlp-light);
   color: var(--rlp-dark);
   min-height: 100vh;
-  display: flex;
-  align-items: start;
-  justify-content: center;
-  padding: 1rem;
 }
 
-/* Input styling */
+/* Default input styling */
 .input {
   width: 100%;
   padding: var(--input-padding);
   font-size: 1rem;
-  background-color: var(--input-bg);
   color: var(--rlp-dark);
+  background-color: var(--input-bg);
   border: 1px solid var(--input-border);
   border-radius: var(--input-radius);
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: border 0.2s ease;
 }
 
 .input:focus {
@@ -40,31 +36,39 @@ body {
   box-shadow: 0 0 0 2px rgba(182, 28, 28, 0.2);
 }
 
-input[type="checkbox"] {
+input[type='checkbox'] {
   accent-color: var(--rlp-red);
 }
 
-/* Typography emphasis */
-h1, h2, h3, h4, h5 {
+/* Typography hierarchy */
+h1, h2, h3, h4 {
   color: var(--rlp-red);
   font-weight: bold;
+  margin-bottom: 0.25rem;
 }
 
 label {
   font-weight: 500;
-  font-size: 0.95rem;
+  display: block;
+  margin-bottom: 0.25rem;
 }
 
-/* Mobile layout fix */
-@media (max-width: 640px) {
-  body {
-    padding: 1rem;
-    align-items: stretch;
-  }
+/* Layout container */
+.container {
+  margin: 0 auto;
+  max-width: 640px;
+  padding: 1rem;
+}
 
+/* Mobile tweaks */
+@media (max-width: 640px) {
   .input {
     font-size: 1rem;
     padding: 0.5rem;
+  }
+
+  .container {
+    padding: 1rem 0.75rem;
   }
 
   h2 {
