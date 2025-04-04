@@ -1,13 +1,28 @@
 import { useState } from 'react';
 
 export default function AgentLTVCalculator() {
+  type RevenueKey =
+    | 'rlpsphereFees'
+    | 'smartleadsProgram'
+    | 'redMarket'
+    | 'trainingEvents'
+    | 'referralRevenue'
+    | 'partnerCommissions';
+
+  type RevenueSource = {
+    [key in RevenueKey]: {
+      enabled: boolean;
+      value: number;
+    };
+  };
+
   const [gci, setGCI] = useState(120000);
   const [royaltyRate, setRoyaltyRate] = useState(1);
   const [royaltyCap, setRoyaltyCap] = useState(1525);
-  const [membershipFee, setMembershipFee] = useState(144 * 12); // $144 monthly
+  const membershipFee = 144 * 12;
   const [marketingFranchiseFeePct, setMarketingFranchiseFeePct] = useState(5); // industry average
 
-  const [extras, setExtras] = useState({
+  const [extras, setExtras] = useState<RevenueSource>({
     rlpsphereFees: { enabled: false, value: 600 },
     smartleadsProgram: { enabled: false, value: 400 },
     redMarket: { enabled: false, value: 250 },
@@ -17,7 +32,7 @@ export default function AgentLTVCalculator() {
   });
 
   const calculateRoyalty = () => {
-    const royalty = (gci * (royaltyRate / 100));
+    const royalty = gci * (royaltyRate / 100);
     return royalty > royaltyCap ? royaltyCap : royalty;
   };
 
@@ -56,25 +71,44 @@ export default function AgentLTVCalculator() {
       <div>
         <h3 className="font-semibold text-lg mt-4">Optional Revenue Sources:</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {Object.entries(extras).map(([key, { enabled, value }]) => (
-            <div key={key} className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-              <label className="flex items-center gap-2">
+          {Object.entries(extras).map(([key, { enabled, value }]) => {
+            const typedKey = key as RevenueKey;
+            return (
+              <div key={key} className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={enabled}
+                    onChange={e =>
+                      setExtras({
+                        ...extras,
+                        [typedKey]: {
+                          ...extras[typedKey],
+                          enabled: e.target.checked,
+                        },
+                      })
+                    }
+                  />
+                  <span className="capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>
+                </label>
                 <input
-                  type="checkbox"
-                  checked={enabled}
-                  onChange={e => setExtras({ ...extras, [key]: { ...extras[key], enabled: e.target.checked } })}
+                  type="number"
+                  value={value}
+                  onChange={e =>
+                    setExtras({
+                      ...extras,
+                      [typedKey]: {
+                        ...extras[typedKey],
+                        value: +e.target.value,
+                      },
+                    })
+                  }
+                  className="input w-full sm:w-24"
+                  disabled={!enabled}
                 />
-                <span className="capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>
-              </label>
-              <input
-                type="number"
-                value={value}
-                onChange={e => setExtras({ ...extras, [key]: { ...extras[key], value: +e.target.value } })}
-                className="input w-full sm:w-24"
-                disabled={!enabled}
-              />
-            </div>
-          ))}
+              </div>
+            );
+          })}
         </div>
       </div>
 
