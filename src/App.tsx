@@ -1,83 +1,147 @@
 import { useState } from 'react';
 
-export default function RecruitmentROICalculator() {
-  const [gci, setGCI] = useState(100000);
-  const [retention, setRetention] = useState(3);
-  const [cpa, setCPA] = useState(10126.99);
-  const [monthlyFee, setMonthlyFee] = useState(144);
-  const [royaltyRate, setRoyaltyRate] = useState(0.01);
+export default function AgentLTVCalculator() {
+  type RevenueKey =
+    | 'rlpsphereFees'
+    | 'smartleadsProgram'
+    | 'redMarket'
+    | 'trainingEvents'
+    | 'referralRevenue'
+    | 'partnerCommissions';
+
+  type RevenueSource = {
+    [key in RevenueKey]: {
+      enabled: boolean;
+      value: number;
+    };
+  };
+
+  const [gci, setGCI] = useState(120000);
+  const [royaltyRate, setRoyaltyRate] = useState(1);
   const [royaltyCap, setRoyaltyCap] = useState(1525);
-  const [roi, setROI] = useState<number | null>(null);
-  const [revenue, setRevenue] = useState<number | null>(null);
+  const [marketingFranchiseFeePct, setMarketingFranchiseFeePct] = useState(5);
+  const [tenure, setTenure] = useState(5);
+  const membershipFee = 144 * 12;
+
+  const [extras, setExtras] = useState<RevenueSource>({
+    rlpsphereFees: { enabled: false, value: 600 },
+    smartleadsProgram: { enabled: false, value: 400 },
+    redMarket: { enabled: false, value: 250 },
+    trainingEvents: { enabled: false, value: 300 },
+    referralRevenue: { enabled: false, value: 500 },
+    partnerCommissions: { enabled: false, value: 400 },
+  });
+
+  const [ltv, setLTV] = useState<number | null>(null);
 
   const calculate = () => {
-    const annualRoyalty = Math.min(gci * royaltyRate, royaltyCap);
-    const annualRevenue = (monthlyFee * 12 + annualRoyalty) * retention;
-    const roiValue = ((annualRevenue - cpa) / cpa) * 100;
-
-    setRevenue(annualRevenue);
-    setROI(roiValue);
+    const royalty = Math.min(gci * (royaltyRate / 100), royaltyCap);
+    const franchiseMarketing = gci * (marketingFranchiseFeePct / 100);
+    const optionalRevenue = Object.values(extras)
+      .filter(extra => extra.enabled)
+      .reduce((sum, extra) => sum + extra.value, 0);
+    const annualRevenue = royalty + franchiseMarketing + membershipFee + optionalRevenue;
+    const totalLTV = annualRevenue * tenure;
+    setLTV(totalLTV);
   };
 
   const reset = () => {
-    setGCI(100000);
-    setRetention(3);
-    setCPA(10126.99);
-    setMonthlyFee(144);
-    setRoyaltyRate(0.01);
+    setGCI(120000);
+    setRoyaltyRate(1);
     setRoyaltyCap(1525);
-    setROI(null);
-    setRevenue(null);
+    setMarketingFranchiseFeePct(5);
+    setTenure(5);
+    setExtras({
+      rlpsphereFees: { enabled: false, value: 600 },
+      smartleadsProgram: { enabled: false, value: 400 },
+      redMarket: { enabled: false, value: 250 },
+      trainingEvents: { enabled: false, value: 300 },
+      referralRevenue: { enabled: false, value: 500 },
+      partnerCommissions: { enabled: false, value: 400 },
+    });
+    setLTV(null);
   };
 
   return (
     <main>
       <section>
-        <h1>Recruitment ROI Calculator</h1>
+        <h1>Agent LTV Calculator</h1>
 
         <form>
-          <label>Agent Annual GCI ($):
-            <input type="number" value={gci} onChange={(e) => setGCI(+e.target.value)} />
-          </label>
-
-          <label>Retention (Years):
-            <input type="number" value={retention} onChange={(e) => setRetention(+e.target.value)} />
-          </label>
-
-          <label>Cost Per Agent Hired (CPA $):
-            <input type="number" value={cpa} onChange={(e) => setCPA(+e.target.value)} />
-          </label>
-
-          <label>Monthly Membership Fee ($):
-            <input type="number" value={monthlyFee} onChange={(e) => setMonthlyFee(+e.target.value)} />
+          <label>Agent GCI ($):
+            <input type="number" value={gci} onChange={e => setGCI(+e.target.value)} />
           </label>
 
           <label>Royalty Rate (%):
-            <input type="number" step="0.01" value={royaltyRate} onChange={(e) => setRoyaltyRate(+e.target.value)} />
+            <input type="number" value={royaltyRate} onChange={e => setRoyaltyRate(+e.target.value)} />
           </label>
 
           <label>Royalty Cap ($):
-            <input type="number" value={royaltyCap} onChange={(e) => setRoyaltyCap(+e.target.value)} />
+            <input type="number" value={royaltyCap} onChange={e => setRoyaltyCap(+e.target.value)} />
           </label>
 
+          <label>Marketing + Franchise Fee (% of GCI):
+            <input type="number" value={marketingFranchiseFeePct} onChange={e => setMarketingFranchiseFeePct(+e.target.value)} />
+          </label>
+
+          <label>Tenure (Years):
+            <input type="number" value={tenure} onChange={e => setTenure(+e.target.value)} />
+          </label>
+
+          <h3>Optional Revenue Sources:</h3>
+          <div className="optional-grid">
+            {Object.entries(extras).map(([key, { enabled, value }]) => {
+              const typedKey = key as RevenueKey;
+              return (
+                <div key={key} className="optional-item">
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={enabled}
+                      onChange={e =>
+                        setExtras({
+                          ...extras,
+                          [typedKey]: {
+                            ...extras[typedKey],
+                            enabled: e.target.checked,
+                          },
+                        })
+                      }
+                    />{' '}
+                    <span className="capitalize">{key.replace(/([A-Z])/g, ' $1')}</span>
+                  </label>
+                  <input
+                    type="number"
+                    value={value}
+                    onChange={e =>
+                      setExtras({
+                        ...extras,
+                        [typedKey]: {
+                          ...extras[typedKey],
+                          value: +e.target.value,
+                        },
+                      })
+                    }
+                    disabled={!enabled}
+                  />
+                </div>
+              );
+            })}
+          </div>
+
           <div className="button-group">
-            <button type="button" className="primary" onClick={calculate}>Calculate ROI</button>
+            <button type="button" className="primary" onClick={calculate}>Calculate LTV</button>
             <button type="button" className="secondary" onClick={reset}>Reset</button>
           </div>
         </form>
 
-        {roi !== null && revenue !== null && (
+        {ltv !== null && (
           <div className="result-box">
-            <h3>Total Revenue:</h3>
-            <p className="result-amount">${revenue.toLocaleString()}</p>
-            <h3>ROI:</h3>
-            <p className="result-amount">{roi.toFixed(2)}%</p>
+            <h3>Estimated LTV to RLP</h3>
+            <p className="result-amount">${ltv.toLocaleString()}</p>
+            <p>Based on {tenure} year(s) tenure</p>
           </div>
         )}
-
-        <p className="text-center" style={{ marginTop: '2rem', fontSize: '0.875rem', color: '#777' }}>
-          Created by Napoleon Jamir for Royal LePage
-        </p>
       </section>
     </main>
   );
