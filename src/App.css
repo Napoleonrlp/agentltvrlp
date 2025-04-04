@@ -1,77 +1,156 @@
+/* === Reset & Core === */
 :root {
   --rlp-red: #b61c1c;
   --rlp-dark: #1a1a1a;
   --rlp-light: #f8f9fa;
-  --input-border: #d1d5db;
-  --input-bg: #ffffff;
-  --input-radius: 0.5rem;
-  --input-padding: 0.5rem 0.75rem;
-  --font-stack: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --border-radius: 0.5rem;
+  --transition: 0.2s ease-in-out;
+  --font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  padding: 0;
-  font-family: var(--font-stack);
+  font-family: var(--font-family);
   background-color: var(--rlp-light);
   color: var(--rlp-dark);
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  padding: 2rem 1rem;
   min-height: 100vh;
+  background-color: var(--rlp-light);
 }
 
-/* Default input styling */
-.input {
+/* === Layout === */
+section {
   width: 100%;
-  padding: var(--input-padding);
-  font-size: 1rem;
-  color: var(--rlp-dark);
-  background-color: var(--input-bg);
-  border: 1px solid var(--input-border);
-  border-radius: var(--input-radius);
-  outline: none;
-  transition: border 0.2s ease;
+  max-width: 700px;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  padding: 2rem;
+  border: 1px solid #e5e7eb;
 }
 
-.input:focus {
-  border-color: var(--rlp-red);
-  box-shadow: 0 0 0 2px rgba(182, 28, 28, 0.2);
-}
-
-input[type='checkbox'] {
-  accent-color: var(--rlp-red);
-}
-
-/* Typography hierarchy */
+/* === Headings === */
 h1, h2, h3, h4 {
   color: var(--rlp-red);
-  font-weight: bold;
-  margin-bottom: 0.25rem;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+/* === Form Styling === */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 label {
   font-weight: 500;
-  display: block;
   margin-bottom: 0.25rem;
+  display: block;
+  font-size: 0.9rem;
 }
 
-/* Layout container */
-.container {
-  margin: 0 auto;
-  max-width: 640px;
-  padding: 1rem;
+input[type="number"],
+input[type="text"] {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.95rem;
+  color: var(--rlp-dark);
+  background-color: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: var(--border-radius);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 
-/* Mobile tweaks */
-@media (max-width: 640px) {
-  .input {
-    font-size: 1rem;
-    padding: 0.5rem;
-  }
+input:focus {
+  outline: none;
+  border-color: var(--rlp-red);
+  box-shadow: 0 0 0 2px rgba(182, 28, 28, 0.15);
+}
 
-  .container {
-    padding: 1rem 0.75rem;
-  }
+input[type="checkbox"] {
+  accent-color: var(--rlp-red);
+}
 
-  h2 {
-    font-size: 1.75rem;
+/* === Optional Revenue Layout === */
+.optional-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .optional-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
+}
+
+.optional-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* === Results Box === */
+.result-box {
+  background-color: white;
+  padding: 1.5rem;
+  border: 2px solid var(--rlp-red);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  text-align: center;
+  margin-top: 2.5rem;
+}
+
+.result-box h3 {
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.result-box p {
+  margin: 0.25rem 0;
+}
+
+.result-amount {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--rlp-dark);
+  line-height: 1.2;
+}
+
+/* === Utilities === */
+.text-center {
+  text-align: center;
+}
+
+.capitalize {
+  text-transform: capitalize;
 }
